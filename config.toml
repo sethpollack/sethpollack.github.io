@@ -1,0 +1,26 @@
+baseurl = "sethpollack.net"
+languageCode = "en-US"
+title = "Seth Pollack"
+googleAnalytics = "UA-55938319-1"
+theme = "hugo-sustain"
+
+[permalinks]
+  blog = "/blog/:year/:month/:day/:title"
+
+[params]
+  avatar = "profile.jpeg"
+  author = "Seth Pollack"
+  description = "Personal Website of Seth Pollack"
+
+[social]
+  Github        = "sethpollack"
+  Email         = "seth@sethpollack.net"
+  Twitter       = "seth_pollack"
+  LinkedIn      = "pollackseth"
+
+## Main Menu
+[[menu.main]]
+  name = "open source"
+  identifier = "open-source"
+  weight = 200
+  url = "/open-source"
