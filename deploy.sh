@@ -17,4 +17,4 @@ git commit -m "$msg"
 
 # Push source and build repos.
 git push origin source
-git push origin `git subtree split --prefix=public source`:master --force
+git subtree push --prefix=public git@github.com:sethpollack/sethpollack.github.io.git master
