@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+    <meta name="description" content="Personal Website of Seth Pollack">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>Better API testing with Airborne</title>
+    <meta name="generator" content="Hugo 0.17" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-55938319-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/open-source">OPEN SOURCE</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/blog/2014/10/26/better-api-testing-with-airborne">Better API testing with Airborne</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          October 26, 2014
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p>At work we are in the process of rewriting our e-commerce site. We are redoing it in stages, starting with a node wrapper around our existing API&rsquo;s that are written in Classic ASP.  I was tasked with writing a test suite for the API&rsquo;s and came across a popular framework called <a href="http://frisbyjs.com/">Frisby.js</a> which claims to make &ldquo;testing API endpoints easy, fast, and fun&rdquo;.</p>
+
+<p></p>
+
+<h2 id="frisby-basics">Frisby Basics</h2>
+
+<p>Frisby is basically a wrapper around jasmine and request with some really useful custom matchers for testing JSON responses.</p>
+
+<p>You start out with a <code>frisby.create</code> which initializes a new firsby object taking a describe string as a parameter which is followed by a method chain including an http verb with the url as a param, some expectations, and finally a <code>.toss()</code> method that kicks off the tests, giving you something that looks like this:.</p>
+
+<pre><code class="language-javascript">var frisby = require('frisby');
+frisby.create('Get Brightbit Twitter feed')
+  .get('https://api.twitter.com/1/statuses/user_timeline.json?screen_name=brightbit')
+  .expectStatus(200)
+  .expectHeaderContains('content-type', 'application/json')
+  .expectJSON('0', {
+    place: function(val) { expect(val).toMatchOrBeNull(&quot;Oklahoma City, OK&quot;); }, // Custom matcher callback
+    user: {
+      verified: false,
+      location: &quot;Oklahoma City, OK&quot;,
+      url: &quot;http://brightb.it&quot;
+    }
+  })
+  .expectJSONTypes('0', {
+    id_str: String,
+    retweeted: Boolean,
+    in_reply_to_screen_name: function(val) { expect(val).toBeTypeOrNull(String); }, // Custom matcher callback
+    user: {
+      verified: Boolean,
+      location: String,
+      url: String
+    }
+  })
+.toss();
+
+// from the frisby docs
+</code></pre>
+
+<h2 id="shortcomings">Shortcomings</h2>
+
+<p>Frisby provides two callback methods <code>afterJSON</code> and <code>after</code> which get called once the test is completed. For example if you want to create a cart, add an item, edit the cart, and clear the cart, you would need to use the <code>after</code> callback to start a new frisby chain:</p>
+
+<pre><code class="language-javascript">var frisby = require('frisby');
+
+frisby.create('get new cart')
+  .post(url + '/carts')
+  //some some expectations
+  .afterJSON(function(json) {
+    var cartId = json.cartId;
+
+    frisby.create('add item to cart')
+      .post(url + '/carts/' + cartId, {
+        &quot;itemId&quot;: itemId,
+        &quot;quantity&quot;: qty
+      }, {
+        json: true
+      })
+      //some some expectations
+      .after(function() {
+
+        frisby.create('edit cart')
+          .put(url + '/carts/' + cartId, {
+            &quot;itemId&quot;: itemId,
+            &quot;quantity&quot;: qty
+          }, {
+            json: true
+          })
+          //some expectations
+          .after(function() {
+
+            frisby.create('clear cart')
+              .delete(url + '/carts/' + cartId + &quot;/items/&quot; + itemId)
+              //some expectations
+              .toss();
+        }).toss();
+    }).toss();
+}).toss();
+</code></pre>
+
+<p>Which means that any complex tests requiring a series of API calls to setup a test are going to get messy real fast. It also means that decoupling setup code from test code is going to be a big challenge, ultimately ending up with an uncomfortable amount of duplicate code or needlessly running the same tests over.</p>
+
+<p>In my code, I wrapped each step in its own function and passed a callback, like this:</p>
+
+<pre><code class="language-javascript">function testCart(){
+  return createNewCart(function(cartId){
+    return addItemToCart(cartId, {itemId: itemId, Qty: qty}, function(){
+      return editCart(cartId,{itemId: itemId, Qty: qty}, function(){
+        return clearCart(function(){});
+      });
+    });
+  });
+}
+</code></pre>
+
+<p>YES, <b>CALLBACK HELL!!!</b> (and frisby does not behave with promises).</p>
+
+<p>Some of the frisby custom matchers (<code>expectJSONTypes</code> and <code>expectJSON</code> for example) take an optional path parameter so that you can specify the path of the object you are testing.</p>
+
+<p>The path also includes helpers for testing arrays allowing you to provide a <code>?</code> to ensure that the array contains at least one object that matches the expectations, or a <code>*</code> to ensure that all objects in the array match the expectations.</p>
+
+<p>However, frisby falls short here as well, and only supports <code>?</code> or <code>*</code>  for arrays at the end of the path.</p>
+
+<p>After a lot of initial frustration I did eventually complete the project using Frisby. However, it got me thinking that there must be a better way. Having no real reason for using javascript for testing other than the irrelevant fact that we were wrapping the API&rsquo;s with node, I decided to see what the Ruby community had to offer (Also because I love writing Ruby and am always looking for excuses to write some Ruby code). Anyway to my dismay, I was unable to find a Ruby library with similar functionality, which is surprising considering the fanaticism the Ruby community has with testing.</p>
+
+<h2 id="airborne-is-born">Airborne Is Born</h2>
+
+<p>Determined not to let something as trivial as a absent library stop us from coding our API test suites in Ruby we (<a href="https://twitter.com/brooklynDev">Alex Friedman</a> and myself) set out to create our own library called <a href="https://github.com/brooklynDev/airborne">Airborne</a>.</p>
+
+<p>The synchronous nature of Ruby made for a much nicer API, and allows users to write tests in RSpec as they normally would, while adding in functionality to assist with testing API&rsquo;s.</p>
+
+<p>We were also able to magically make the response available Just by making an API call, we provide you with the following properties:</p>
+
+<ul>
+<li><code>response</code> - The HTTP response returned from the request</li>
+<li><code>headers</code> - A symbolized hash of the response headers returned by the request</li>
+<li><code>body</code> - The raw HTTP body returned from the request</li>
+<li><code>json_body</code> - A symbolized hash representation of the JSON returned by the request</li>
+</ul>
+
+<p>A basic airborne test looks something like this:</p>
+
+<pre><code class="language-ruby">require 'airborne'
+
+describe 'sample spec' do
+  it 'should validate types' do
+    get 'http://example.com/api/v1/simple_get' #json api that returns { &quot;name&quot; : &quot;John Doe&quot; }
+    expect_json_types(name: :string)
+  end
+
+  it 'should validate values' do
+    get 'http://example.com/api/v1/simple_get' #json api that returns { &quot;name&quot; : &quot;John Doe&quot; }
+    expect_json(:name =&gt; 'John Doe')
+  end
+end
+
+</code></pre>
+
+<p>And the above test cart code now looks something like this:</p>
+
+<pre><code class="language-ruby"> describe 'cart' do
+
+  it 'should create new cart' do
+    post '/carts'
+    cart_id = json_body[:cartId]
+    # some expectations
+  end
+
+  it 'should add an item to the cart' do
+    post &quot;/carts/#{cart_id}&quot;, {itemId: item_id, quantity: qty}
+    # some expectations
+  end
+
+  it 'should edit an item in the cart' do
+    put &quot;/carts/#{cart_id}&quot;, {itemId: item_id, quantity: qty}
+    # some expectations
+  end
+
+  it 'should clear the cart' do
+    get &quot;/carts/#{cart_id}&quot;
+    json_body[:items].each {|item| delete &quot;/carts/#{cart_id}/items/#{item[:id]}&quot;}
+    # some expectations
+  end
+
+end
+</code></pre>
+
+<p>Airborne also provides many of other added features and improvements including:</p>
+
+<ul>
+<li>The ability to test against any live API, or agains an existing Rack application like Sinatra, Grape, or rails without actually having a server running.</li>
+<li>Fully functioning path, allowing you to test against arrays, nested or otherwise.</li>
+<li>Global setup for a base url and header.</li>
+<li>Full set of custom matchers, for testing against.</li>
+<li>Helpers for regex, dates,  and custom callbacks.</li>
+</ul>
+
+<p><a href="https://github.com/brooklynDev/airborne">See the docs for more info on using airborne</a></p>
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; Seth Pollack 2016</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/docs.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script src="/js/ie10-viewport-bug-workaround.js"></script><!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  </body>
+</html>
