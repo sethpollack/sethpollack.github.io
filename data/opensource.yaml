@@ -1,0 +1,89 @@
+projects:
+  - name: airborne
+    url: https://github.com/brooklynDev/airborne
+    description: Co-authored airborne, an RSpec driven API testing framework.
+
+  - name: ember-stickler
+    url: https://github.com/sethpollack/ember-stickler
+    description: Authored ember-stickler, a component based validation library for ember.
+
+  - name: ember-cli-deploy-change-log
+    url: https://github.com/sethpollack/ember-cli-deploy-change-log
+    description: Authored ember-cli-deploy-change-log, an ember-cli-deploy plugin for adding a git change-log to your deployment context.
+
+  - name: bunyan-slack
+    url: https://github.com/qualitybath/bunyan-slack
+    description: Authored bunyan-slack, a bunyan stream for Slack chat integration
+
+  - name: bugzscout
+    url: https://github.com/qualitybath/bugzscout
+    description: Authored bugzscout, a node wrapper around the bugzscout API.
+
+  - name: bunyan-fogbugz
+    url: https://github.com/qualitybath/bunyan-fogbugz
+    description: Authored bunyan-fogbugz, a bunyan stream or sending automated crash reports to FogBugz.
+
+  - name: faker-rs
+    url: https://github.com/tikotzky/faker-rs
+    description: Co-authored Faker-rs, a port of Faker for Rust.
+
+contributions:
+  - name: kubernetes/kops
+    url: https://github.com/kubernetes/kops
+    description: Actively contributing to the project.
+
+  - name: ember-cli-deploy/ember-cli-deploy
+    url: https://github.com/ember-cli-deploy/ember-cli-deploy
+    description: Updated activate and deploy pipeline hooks.
+
+  - name: ember-cli-deploy/ember-cli-deploy-s3
+    url: https://github.com/ember-cli-deploy/ember-cli-deploy-s3
+    description: Added support for server side encryption.
+
+  - name: ember-cli-deploy/ember-cli-deploy-s3-index
+    url: https://github.com/ember-cli-deploy/ember-cli-deploy-s3
+    description: Added support for server side encryption.
+
+  - name: istanbul
+    url: https://github.com/gotwarlost/istanbul
+    description: Added functionality to pass file extensions to hookRequire.
+
+  - name: gulp-istanbul
+    url: https://github.com/SBoudrias/gulp-istanbul
+    description: Added options to hookRequire.
+
+  - name: grunt-istanbul
+    url: https://github.com/taichi/grunt-istanbul
+    description: Added optional instrumenter argument.
+
+  - name: eslint
+    url: https://github.com/eslint/eslint
+    description: Added support for namespaced plugins.
+
+  - name: camelize
+    url: https://github.com/substack/camelize
+    description: Added Support for Regex and Dates.
+
+  - name: request
+    url: https://github.com/request/request
+    description: Refactored some code.
+
+  - name: node-slug
+    url: https://github.com/dodo/node-slug
+    description: Fixed failing tests.
+
+  - name: rust
+    url: https://github.com/rust-lang/rust
+    description: Edited docs.
+
+  - name: grape
+    url: https://github.com/intridea/grape
+    description: Added docs for testing grape applications with airborne.
+
+  - name: geokit-rails
+    url: https://github.com/geokit/geokit-rails
+    description: Edited docs.
+
+  - name: env-is
+    url: https://github.com/qualitybath/env-is
+    description: Edited docs.
