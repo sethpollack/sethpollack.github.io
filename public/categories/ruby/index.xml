@@ -1,196 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Seth Pollack</title>
-    <link>/categories/ruby/index.xml</link>
-    <description>Recent content on Seth Pollack</description>
+    <title>Ruby on Seth Pollack</title>
+    <link>/categories/ruby/</link>
+    <description>Recent content in Ruby on Seth Pollack</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Oct 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Better API testing with Airborne</title>
-      <link>/blog/2014/10/26/better-api-testing-with-airborne</link>
+      <link>/blog/2014/10/26/better-api-testing-with-airborne/</link>
       <pubDate>Sun, 26 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>/blog/2014/10/26/better-api-testing-with-airborne</guid>
+      <guid>/blog/2014/10/26/better-api-testing-with-airborne/</guid>
       <description>&lt;p&gt;At work we are in the process of rewriting our e-commerce site. We are redoing it in stages, starting with a node wrapper around our existing API&amp;rsquo;s that are written in Classic ASP.  I was tasked with writing a test suite for the API&amp;rsquo;s and came across a popular framework called &lt;a href=&#34;http://frisbyjs.com/&#34;&gt;Frisby.js&lt;/a&gt; which claims to make &amp;ldquo;testing API endpoints easy, fast, and fun&amp;rdquo;.&lt;/p&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;frisby-basics&#34;&gt;Frisby Basics&lt;/h2&gt;
-
-&lt;p&gt;Frisby is basically a wrapper around jasmine and request with some really useful custom matchers for testing JSON responses.&lt;/p&gt;
-
-&lt;p&gt;You start out with a &lt;code&gt;frisby.create&lt;/code&gt; which initializes a new firsby object taking a describe string as a parameter which is followed by a method chain including an http verb with the url as a param, some expectations, and finally a &lt;code&gt;.toss()&lt;/code&gt; method that kicks off the tests, giving you something that looks like this:.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var frisby = require(&#39;frisby&#39;);
-frisby.create(&#39;Get Brightbit Twitter feed&#39;)
-  .get(&#39;https://api.twitter.com/1/statuses/user_timeline.json?screen_name=brightbit&#39;)
-  .expectStatus(200)
-  .expectHeaderContains(&#39;content-type&#39;, &#39;application/json&#39;)
-  .expectJSON(&#39;0&#39;, {
-    place: function(val) { expect(val).toMatchOrBeNull(&amp;quot;Oklahoma City, OK&amp;quot;); }, // Custom matcher callback
-    user: {
-      verified: false,
-      location: &amp;quot;Oklahoma City, OK&amp;quot;,
-      url: &amp;quot;http://brightb.it&amp;quot;
-    }
-  })
-  .expectJSONTypes(&#39;0&#39;, {
-    id_str: String,
-    retweeted: Boolean,
-    in_reply_to_screen_name: function(val) { expect(val).toBeTypeOrNull(String); }, // Custom matcher callback
-    user: {
-      verified: Boolean,
-      location: String,
-      url: String
-    }
-  })
-.toss();
-
-// from the frisby docs
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;shortcomings&#34;&gt;Shortcomings&lt;/h2&gt;
-
-&lt;p&gt;Frisby provides two callback methods &lt;code&gt;afterJSON&lt;/code&gt; and &lt;code&gt;after&lt;/code&gt; which get called once the test is completed. For example if you want to create a cart, add an item, edit the cart, and clear the cart, you would need to use the &lt;code&gt;after&lt;/code&gt; callback to start a new frisby chain:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var frisby = require(&#39;frisby&#39;);
-
-frisby.create(&#39;get new cart&#39;)
-  .post(url + &#39;/carts&#39;)
-  //some some expectations
-  .afterJSON(function(json) {
-    var cartId = json.cartId;
-
-    frisby.create(&#39;add item to cart&#39;)
-      .post(url + &#39;/carts/&#39; + cartId, {
-        &amp;quot;itemId&amp;quot;: itemId,
-        &amp;quot;quantity&amp;quot;: qty
-      }, {
-        json: true
-      })
-      //some some expectations
-      .after(function() {
-
-        frisby.create(&#39;edit cart&#39;)
-          .put(url + &#39;/carts/&#39; + cartId, {
-            &amp;quot;itemId&amp;quot;: itemId,
-            &amp;quot;quantity&amp;quot;: qty
-          }, {
-            json: true
-          })
-          //some expectations
-          .after(function() {
-
-            frisby.create(&#39;clear cart&#39;)
-              .delete(url + &#39;/carts/&#39; + cartId + &amp;quot;/items/&amp;quot; + itemId)
-              //some expectations
-              .toss();
-        }).toss();
-    }).toss();
-}).toss();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Which means that any complex tests requiring a series of API calls to setup a test are going to get messy real fast. It also means that decoupling setup code from test code is going to be a big challenge, ultimately ending up with an uncomfortable amount of duplicate code or needlessly running the same tests over.&lt;/p&gt;
-
-&lt;p&gt;In my code, I wrapped each step in its own function and passed a callback, like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function testCart(){
-  return createNewCart(function(cartId){
-    return addItemToCart(cartId, {itemId: itemId, Qty: qty}, function(){
-      return editCart(cartId,{itemId: itemId, Qty: qty}, function(){
-        return clearCart(function(){});
-      });
-    });
-  });
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;YES, &lt;b&gt;CALLBACK HELL!!!&lt;/b&gt; (and frisby does not behave with promises).&lt;/p&gt;
-
-&lt;p&gt;Some of the frisby custom matchers (&lt;code&gt;expectJSONTypes&lt;/code&gt; and &lt;code&gt;expectJSON&lt;/code&gt; for example) take an optional path parameter so that you can specify the path of the object you are testing.&lt;/p&gt;
-
-&lt;p&gt;The path also includes helpers for testing arrays allowing you to provide a &lt;code&gt;?&lt;/code&gt; to ensure that the array contains at least one object that matches the expectations, or a &lt;code&gt;*&lt;/code&gt; to ensure that all objects in the array match the expectations.&lt;/p&gt;
-
-&lt;p&gt;However, frisby falls short here as well, and only supports &lt;code&gt;?&lt;/code&gt; or &lt;code&gt;*&lt;/code&gt;  for arrays at the end of the path.&lt;/p&gt;
-
-&lt;p&gt;After a lot of initial frustration I did eventually complete the project using Frisby. However, it got me thinking that there must be a better way. Having no real reason for using javascript for testing other than the irrelevant fact that we were wrapping the API&amp;rsquo;s with node, I decided to see what the Ruby community had to offer (Also because I love writing Ruby and am always looking for excuses to write some Ruby code). Anyway to my dismay, I was unable to find a Ruby library with similar functionality, which is surprising considering the fanaticism the Ruby community has with testing.&lt;/p&gt;
-
-&lt;h2 id=&#34;airborne-is-born&#34;&gt;Airborne Is Born&lt;/h2&gt;
-
-&lt;p&gt;Determined not to let something as trivial as a absent library stop us from coding our API test suites in Ruby we (&lt;a href=&#34;https://twitter.com/brooklynDev&#34;&gt;Alex Friedman&lt;/a&gt; and myself) set out to create our own library called &lt;a href=&#34;https://github.com/brooklynDev/airborne&#34;&gt;Airborne&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The synchronous nature of Ruby made for a much nicer API, and allows users to write tests in RSpec as they normally would, while adding in functionality to assist with testing API&amp;rsquo;s.&lt;/p&gt;
-
-&lt;p&gt;We were also able to magically make the response available Just by making an API call, we provide you with the following properties:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;response&lt;/code&gt; - The HTTP response returned from the request&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;headers&lt;/code&gt; - A symbolized hash of the response headers returned by the request&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;body&lt;/code&gt; - The raw HTTP body returned from the request&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;json_body&lt;/code&gt; - A symbolized hash representation of the JSON returned by the request&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;A basic airborne test looks something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;require &#39;airborne&#39;
-
-describe &#39;sample spec&#39; do
-  it &#39;should validate types&#39; do
-    get &#39;http://example.com/api/v1/simple_get&#39; #json api that returns { &amp;quot;name&amp;quot; : &amp;quot;John Doe&amp;quot; }
-    expect_json_types(name: :string)
-  end
-
-  it &#39;should validate values&#39; do
-    get &#39;http://example.com/api/v1/simple_get&#39; #json api that returns { &amp;quot;name&amp;quot; : &amp;quot;John Doe&amp;quot; }
-    expect_json(:name =&amp;gt; &#39;John Doe&#39;)
-  end
-end
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And the above test cart code now looks something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt; describe &#39;cart&#39; do
-
-  it &#39;should create new cart&#39; do
-    post &#39;/carts&#39;
-    cart_id = json_body[:cartId]
-    # some expectations
-  end
-
-  it &#39;should add an item to the cart&#39; do
-    post &amp;quot;/carts/#{cart_id}&amp;quot;, {itemId: item_id, quantity: qty}
-    # some expectations
-  end
-
-  it &#39;should edit an item in the cart&#39; do
-    put &amp;quot;/carts/#{cart_id}&amp;quot;, {itemId: item_id, quantity: qty}
-    # some expectations
-  end
-
-  it &#39;should clear the cart&#39; do
-    get &amp;quot;/carts/#{cart_id}&amp;quot;
-    json_body[:items].each {|item| delete &amp;quot;/carts/#{cart_id}/items/#{item[:id]}&amp;quot;}
-    # some expectations
-  end
-
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Airborne also provides many of other added features and improvements including:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The ability to test against any live API, or agains an existing Rack application like Sinatra, Grape, or rails without actually having a server running.&lt;/li&gt;
-&lt;li&gt;Fully functioning path, allowing you to test against arrays, nested or otherwise.&lt;/li&gt;
-&lt;li&gt;Global setup for a base url and header.&lt;/li&gt;
-&lt;li&gt;Full set of custom matchers, for testing against.&lt;/li&gt;
-&lt;li&gt;Helpers for regex, dates,  and custom callbacks.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/brooklynDev/airborne&#34;&gt;See the docs for more info on using airborne&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

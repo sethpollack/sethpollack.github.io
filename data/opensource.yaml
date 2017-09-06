@@ -32,6 +32,18 @@ contributions:
     url: https://github.com/kubernetes/kops
     description: Actively contributing to the project.
 
+  - name: kubernetes/ingress
+    url: https://github.com/kubernetes/ingress
+    description: Added support for per minute rate limiting, rate limit whitelist, and some docs updates.
+
+  - name: kubernetes/autoscaler
+    url: https://github.com/kubernetes/autoscaler
+    description: Added ability to scale from/to 0 with AWS.
+
+  - name: kubernetes-incubator/external-dns
+    url: https://github.com/kubernetes-incubator/external-dns
+    description: Actively working on a series of PR's to make this a drop in replacement for dns-controller on kops.
+
   - name: ember-cli-deploy/ember-cli-deploy
     url: https://github.com/ember-cli-deploy/ember-cli-deploy
     description: Updated activate and deploy pipeline hooks.
