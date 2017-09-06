@@ -12,7 +12,7 @@ theme = "hugo-sustain"
   author = "Seth Pollack"
   description = "Personal Website of Seth Pollack"
 
-[social]
+[params.social]
   Github        = "sethpollack"
   Email         = "seth@sethpollack.net"
   Twitter       = "seth_pollack"
