@@ -35,6 +35,11 @@ projects:
     url: https://github.com/sethpollack/bogie
     description: Authored bogie, a templating tool for Kubernetes clusters.
 
+  - name: aws-encryption-provider
+    url: https://github.com/kubernetes-sigs/aws-encryption-provider
+    description: Authored aws-encryption-provider, an APIServer encryption provider, backed by AWS KMS
+
+
 contributions:
   - name: kubernetes/kops
     url: https://github.com/kubernetes/kops
