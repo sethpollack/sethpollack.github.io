@@ -39,6 +39,9 @@ projects:
     url: https://github.com/kubernetes-sigs/aws-encryption-provider
     description: Authored aws-encryption-provider, an APIServer encryption provider, backed by AWS KMS
 
+  - name: ecr-cleaner
+    url: https://github.com/sethpollack/ecr-cleaner
+    description: Authored ecr-cleaner, an tool for cleaning up untagged ecr images.
 
 contributions:
   - name: kubernetes/kops
@@ -52,10 +55,6 @@ contributions:
   - name: kubernetes/autoscaler
     url: https://github.com/kubernetes/autoscaler
     description: Added ability to scale from/to 0 with AWS.
-
-  - name: kubernetes-incubator/external-dns
-    url: https://github.com/kubernetes-incubator/external-dns
-    description: Actively working on a series of PR's to make this a drop in replacement for dns-controller on kops.
 
   - name: ember-cli-deploy/ember-cli-deploy
     url: https://github.com/ember-cli-deploy/ember-cli-deploy
