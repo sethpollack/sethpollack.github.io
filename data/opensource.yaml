@@ -56,6 +56,10 @@ contributions:
     url: https://github.com/kubernetes/autoscaler
     description: Added ability to scale from/to 0 with AWS.
 
+  - name: kustomize
+    url: https://github.com/kubernetes-sigs/kustomize
+    description: Actively contributing to the project.
+
   - name: ember-cli-deploy/ember-cli-deploy
     url: https://github.com/ember-cli-deploy/ember-cli-deploy
     description: Updated activate and deploy pipeline hooks.
