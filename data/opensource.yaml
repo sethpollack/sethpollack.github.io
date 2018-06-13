@@ -41,7 +41,11 @@ projects:
 
   - name: ecr-cleaner
     url: https://github.com/sethpollack/ecr-cleaner
-    description: Authored ecr-cleaner, an tool for cleaning up untagged ecr images.
+    description: Authored ecr-cleaner, a tool for cleaning up untagged ecr images.
+
+  - name: dockerbox
+    url: https://github.com/sethpollack/dockerbox
+    description: Authored dockerbox, a tool for running docker containers.
 
 contributions:
   - name: kubernetes/kops
