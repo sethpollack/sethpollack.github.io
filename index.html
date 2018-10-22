@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="map[]" />
+    <meta name="author" content="Seth Pollack" />
     <meta name="description" content="Personal Website of Seth Pollack">
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <title>Seth Pollack</title>
-    <meta name="generator" content="Hugo 0.27-DEV" />
+    <meta name="generator" content="Hugo 0.50-DEV" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     
     <!--[if lt IE 9]>
@@ -20,14 +20,17 @@
 		<![endif]-->
 
     
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-55938319-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-55938319-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
   </head>
@@ -38,8 +41,13 @@ ga('send', 'pageview');
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
     </div>
-    <div id="navbar">
+    <div class="navbar-collapse collapse" id="navbar">
       <ul class="nav navbar-nav navbar-right">
       
         
@@ -56,7 +64,7 @@ ga('send', 'pageview');
         <div class="avatar">
           <img class="img-circle" src="/img/profile.jpeg" alt="Responsive image">
         </div>
-        <h3>I'm <strong>Seth Pollack</strong>, a Full Stack Engineer. Currently hacking on Golang & Kubernetes @ BeenVerified</h3>
+        <h3>I'm <strong>Seth Pollack</strong>, a Full Stack Engineer. Currently hacking on Golang & Kubernetes @ ZillowGroup</h3>
         <h3>Most of my free time is dedicated to working on open source, learning the latest software tools available, and honing my programming skills.</h3>
         <h3>Have a look at some of my <a href="/open-source/"> projects</a>.</h3>
         <h3>Contact me at <a href="http://twitter.com/seth_pollack">@seth_pollack</a> or by <a href="mailto:seth@sethpollack.net">email</a>.</h3>
