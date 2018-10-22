@@ -48,11 +48,6 @@
   </url>
   
   <url>
-    <loc>/open-source/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/rspec/</loc>
     <lastmod>2014-10-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
