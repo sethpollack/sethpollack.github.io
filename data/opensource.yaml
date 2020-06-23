@@ -47,6 +47,10 @@ projects:
     url: https://github.com/sethpollack/dockerbox
     description: Authored dockerbox, a tool for running docker containers.
 
+  - name: zspec
+    url: https://github.com/StreetEasy/zspec
+    description: Authored zspec, a distributed test runner for RSpec.
+
 contributions:
   - name: kubernetes/kops
     url: https://github.com/kubernetes/kops
@@ -63,6 +67,22 @@ contributions:
   - name: kubernetes-sigs/kustomize
     url: https://github.com/kubernetes-sigs/kustomize
     description: Actively contributing to the project.
+
+  - name: drone-runners/drone-runner-kube
+    url: https://github.com/drone-runners/drone-runner-kube
+    description: Actively contributing to the project.
+
+  - name: kevholditch/gokong
+    url: https://github.com/kevholditch/gokong
+    description: Added support for adminkey.
+
+  - name: kevholditch/terraform-provider-kong
+    url: https://github.com/kevholditch/terraform-provider-kong
+    description: Added dot-env for adminkey.
+
+  - name: envkey/envkey-source
+    url: https://github.com/envkey/envkey-source
+    description: Added dot-env-compatible flag.
 
   - name: ember-cli-deploy/ember-cli-deploy
     url: https://github.com/ember-cli-deploy/ember-cli-deploy

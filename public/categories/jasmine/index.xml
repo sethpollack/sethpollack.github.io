@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jasmine on Seth Pollack</title>
@@ -17,9 +17,7 @@
       <pubDate>Sun, 26 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>/blog/2014/10/26/better-api-testing-with-airborne/</guid>
-      <description>&lt;p&gt;At work we are in the process of rewriting our e-commerce site. We are redoing it in stages, starting with a node wrapper around our existing API&amp;rsquo;s that are written in Classic ASP.  I was tasked with writing a test suite for the API&amp;rsquo;s and came across a popular framework called &lt;a href=&#34;http://frisbyjs.com/&#34;&gt;Frisby.js&lt;/a&gt; which claims to make &amp;ldquo;testing API endpoints easy, fast, and fun&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;At work we are in the process of rewriting our e-commerce site. We are redoing it in stages, starting with a node wrapper around our existing API&amp;rsquo;s that are written in Classic ASP.  I was tasked with writing a test suite for the API&amp;rsquo;s and came across a popular framework called &lt;a href=&#34;http://frisbyjs.com/&#34;&gt;Frisby.js&lt;/a&gt; which claims to make &amp;ldquo;testing API endpoints easy, fast, and fun&amp;rdquo;.&lt;/p&gt;</description>
     </item>
     
   </channel>
