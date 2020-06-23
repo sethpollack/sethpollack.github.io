@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/categories/airborne.rb/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
+  </url>
   
   <url>
     <loc>/blog/2014/10/26/better-api-testing-with-airborne/</loc>
@@ -8,39 +13,43 @@
   </url>
   
   <url>
-    <loc>/categories/airborne.rb/</loc>
-    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/blog/</loc>
     <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
     <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/frisby.js/</loc>
     <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/jasmine/</loc>
     <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/node.js/</loc>
     <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/rspec/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/ruby/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -48,26 +57,7 @@
   </url>
   
   <url>
-    <loc>/categories/rspec/</loc>
-    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/ruby/</loc>
-    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>
